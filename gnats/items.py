@@ -5,7 +5,23 @@
 
 from scrapy.item import Item, Field
 
+
 class GnatsItem(Item):
-    # define the fields for your item here like:
-    # name = Field()
-    pass
+    number = Field()
+    title = Field()
+    responsible = Field()
+    state = Field()
+    reported_in = Field()
+    submitter = Field()
+    category = Field()
+    level = Field()
+    platform = Field()
+    originator = Field()
+    customer = Field()
+    qa_owner = Field()
+    ce_owner = Field()
+    dev_owner = Field()
+    audit_trail = Field()
+    last_audit = Field()
+    arrived_at = Field()
+    modified_at = Field()

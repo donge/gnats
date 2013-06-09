@@ -1,0 +1,10 @@
+{
+	"name": "jdapi",
+	"version": "0.1.0",
+	"author": "Tyr Chen",
+	"dependencies": {
+		"restify": "",
+		"mongojs": "",
+		"lodash": ""
+	}
+}
