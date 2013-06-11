@@ -13,7 +13,8 @@ urlquote_safe = "%/:=?&"
 
 password = base64.b64decode(password)
 
-host = 'http://directory-api.jcnrd.us'
+host = 'http://api.jcnrd.us'
+api_monitored_groups = host + '/directory/gnats-monitored-group.json'
 
 exclude_sos_issue = '2010-01-01'
 responsible_base = 'https://gnats.juniper.net/web/default/do-query?adv=0&arrival-date-since=' + \
@@ -47,11 +48,11 @@ class GnatsSpider(CrawlSpider):
 
 
     def start_requests(self):
-        teams = requests.get(host + '/gnats/monitored-group.json').json()
+        teams = requests.get(api_monitored_groups).json()
         engineers = []
 
         for team in teams:
-            engineers += requests.get(host + '/groups/%s.json?uid=1' % team).json()['members']
+            engineers += requests.get(host + '/directory/groups/%s.json?uid=1' % team).json()['members']
 
         # yield self.make_requests_from_url(format_url('tchen'))
         for url in map(lambda x: format_url(x), engineers):
