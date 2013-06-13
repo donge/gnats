@@ -25,3 +25,4 @@ class GnatsItem(Item):
     last_audit = Field()
     arrived_at = Field()
     modified_at = Field()
+    crawled = Field()

@@ -4,10 +4,7 @@
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 from datetime import datetime
 
-from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
-db = client.gnats
-issues = db['issues']
+from spiders.mongodb import issues
 
 
 class MongoPipeline(object):
@@ -26,7 +23,10 @@ class MongoPipeline(object):
             history = issue.get('history', [])
             history.append(history_item)
             item['history'] = history
+            item['crawled'] = True
             col.update({'number': number}, item)
+        else:
+            col.update({'number': number}, {'$set': {'crawled': True}})
 
     def process_item(self, item, spider):
         issue = dict(item)
