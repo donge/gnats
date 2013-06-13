@@ -17,7 +17,8 @@ host = 'http://api.jcnrd.us'
 api_monitored_groups = host + '/directory/gnats-monitored-group.json'
 
 exclude_sos_issue = '2010-01-01'
-responsible_base = 'https://gnats.juniper.net/web/default/do-query?adv=0&arrival-date-since=' + \
+
+responsible_base_old = 'https://gnats.juniper.net/web/default/do-query?adv=0&arrival-date-since=' + \
                    exclude_sos_issue + \
                    '&OPT_dev-owner=EXACT&ignoreclosed=on&queryname=tchen%27s+responsible+PRs&dev-owner=%s' + \
                    '&recentPRs=lm2yr&colType=noscoped&csv=0&columns=synopsis%2Creported-in%2Csubmitter-id' + \
@@ -25,11 +26,21 @@ responsible_base = 'https://gnats.juniper.net/web/default/do-query?adv=0&arrival
                    '%2Coriginator%2Carrival-date%2Cbranch%2Ccustomer%2Ccustomer-escalation-owner' + \
                    '%2Cdev-owner%2Csystest-owner%2Clast-modified&op=%26'
 
+
+responsible_base = 'https://gnats.juniper.net/web/default/do-query?adv=1&ignoreclosed=on&expr=%28%28%28arrival-date' \
+                   + '+%3E+%222010-01-01%22%29+%26+%28%28dev-owner+%3D%3D+%22tchen%22%29+%7C+%28responsible+' \
+                   + '%3D%3D+%22tchen%22%29%29%29+%26+%28last-modified+%3E+%221+years+ago%22%29%29+%26+%28' \
+                   + 'builtinfield%3AState%5Btype%5D+%21%3D+%22closed%22%29&queryname=tchen%27s%2B' \
+                   + 'responsible%2BPRs&recentPRs=lm2yr&colType=noscoped&csv=0&columns=synopsis%2Creported-in' \
+                   + '%2Csubmitter-id%2Ccategory%2Cproblem-level%2Cblocker%2Cplanned-release%2Cstate%2Cresponsible' \
+                   + '%2Coriginator%2Carrival-date%2Cbranch%2Ccustomer%2Ccustomer-escalation-owner%2Cdev-owner' \
+                   + '%2Csystest-owner%2Clast-modified&op=%26'
 pr_base = 'https://gnats.juniper.net/web/default/%s'
 
 
 def format_url(uid):
-    return urllib.quote(urllib.unquote(responsible_base) % uid, urlquote_safe).replace('&op=&', '')
+    #return urllib.quote(urllib.unquote(responsible_base) % uid, urlquote_safe).replace('&op=&', '')
+    return responsible_base.replace('tchen', uid)
 
 
 class GnatsSpider(CrawlSpider):

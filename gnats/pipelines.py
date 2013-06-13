@@ -16,7 +16,7 @@ class MongoPipeline(object):
         issue = col.find_one({'number': number})
         if not issue:
             col.insert(item)
-        else:
+        elif issue['modified_at'] != item['modified_at']:
             history_item = {
                 'responsible': issue['responsible'],
                 'state': issue['state'],
