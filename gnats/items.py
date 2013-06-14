@@ -26,3 +26,5 @@ class GnatsItem(Item):
     arrived_at = Field()
     modified_at = Field()
     crawled = Field()
+    comment = Field()
+    status = Field()

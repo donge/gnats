@@ -31,6 +31,8 @@ def parse_gnats_item(hxs):
     item['arrived_at'] = parse(get_text(hxs, '//*[@id="val_arrival-date"]'))
     item['modified_at'] = parse(get_text(hxs, '//*[@id="val_last-modified"]'))
     item['crawled'] = True
+    item['comment'] = ''
+    item['status'] = 'green'
     return item
 
 
