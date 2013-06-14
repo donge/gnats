@@ -12,7 +12,7 @@ class MongoPipeline(object):
         number = item['number']
         issue = col.find_one({'number': number})
         if not issue:
-            if issue['reported_in'].find('0z0') < 0 or issue['state'] != 'closed':
+            if item['reported_in'].find('0z0') < 0 or item['state'] != 'closed':
                 # ignore screenos issues or closed issues
                 col.insert(item)
         elif issue['modified_at'] != item['modified_at']:
