@@ -13,6 +13,9 @@ class MongoPipeline(object):
         issue = col.find_one({'number': number})
         if not issue:
             if item['reported_in'].find('0z0') < 0 or item['state'] != 'closed':
+
+                item['comment'] = ''
+                item['status'] = 'normal'
                 # ignore screenos issues or closed issues
                 col.insert(item)
         elif issue['modified_at'] != item['modified_at']:
@@ -26,7 +29,7 @@ class MongoPipeline(object):
             history.append(history_item)
             item['history'] = history
             item['crawled'] = True
-            col.update({'number': number}, item)
+            col.update({'number': number}, {'$set': item})
         else:
             col.update({'number': number}, {'$set': {'crawled': True}})
 
