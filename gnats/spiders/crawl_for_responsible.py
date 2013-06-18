@@ -13,7 +13,7 @@ urlquote_safe = "%/:=?&"
 user, password = get_password()
 
 host = 'http://api.jcnrd.us'
-api_monitored_groups = host + '/directory/gnats-monitored-group.json'
+api_monitored_members = host + '/directory/gnats-monitored-members.json'
 
 
 responsible_base = 'https://gnats.juniper.net/web/default/do-query?adv=1&ignoreclosed=on&expr=%28%28%28arrival-date' \
@@ -50,13 +50,9 @@ class ResponsibleSpider(CrawlSpider):
         issues.update({}, {'$set': {'crawled': False}}, multi=True)
 
     def start_requests(self):
-        teams = requests.get(api_monitored_groups).json()
-        engineers = []
+        engineers = requests.get(api_monitored_members).json()
 
         self.init_crawled_status()
-
-        for team in teams:
-            engineers += requests.get(host + '/directory/groups/%s.json?uid=1' % team).json()['members']
 
         # yield self.make_requests_from_url(format_url('tchen'))
         for url in map(lambda x: format_url(x), engineers):
