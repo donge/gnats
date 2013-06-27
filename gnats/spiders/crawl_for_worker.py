@@ -2,7 +2,6 @@ from scrapy.contrib.spiders import CrawlSpider
 from scrapy.http import Request
 from scrapy.selector import HtmlXPathSelector
 from gnats.spiders.utils import parse_gnats_item, get_password
-from mongodb import issues
 
 
 user, password = get_password()
@@ -10,18 +9,15 @@ user, password = get_password()
 pr_base = 'https://gnats.juniper.net/web/default/%s'
 
 
-class WorkerSpider(CrawlSpider):
+class WorkerPrSpider(CrawlSpider):
     http_user = user
     http_pass = password
-    name = 'worker'
+    name = 'worker_pr'
     allowed_domains = ['gnats.juniper.net']
+    # parameters should not defined and set in __init__(), which will make the spider doesn't work with json api.
+    # just set None here and use it in methods (as below).
     number = None
     uid = None
-
-    def __init__(self, number=None, uid=None):
-        super(WorkerSpider, self).__init__()
-        self.number = number
-        self.uid = uid
 
     def start_requests(self):
         url = pr_base % self.number

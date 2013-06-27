@@ -21,9 +21,7 @@ class MongoPipeline(object):
                 col.insert(item)
         else:
             # add new worker and keep it unique
-            print('item workers:', item['worker'])
-            item['worker'] = list(set(issue['worker'] + item['worker']))
-            print('item workers:', item['worker'])
+            item['worker'] = list(set(issue.get('worker', []) + item['worker']))
 
             if issue['modified_at'] != item['modified_at']:
                 # for changed PR we record a new history
