@@ -28,3 +28,4 @@ class GnatsItem(Item):
     crawled = Field()
     comment = Field()
     status = Field()
+    worker = Field()

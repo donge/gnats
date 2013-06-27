@@ -28,7 +28,6 @@ pr_base = 'https://gnats.juniper.net/web/default/%s'
 
 
 def format_url(uid):
-    #return urllib.quote(urllib.unquote(responsible_base) % uid, urlquote_safe).replace('&op=&', '')
     return responsible_base.replace('tchen', uid)
 
 
@@ -54,7 +53,6 @@ class ResponsibleSpider(CrawlSpider):
 
         self.init_crawled_status()
 
-        # yield self.make_requests_from_url(format_url('tchen'))
         for url in map(lambda x: format_url(x), engineers):
             yield self.make_requests_from_url(url)
 
